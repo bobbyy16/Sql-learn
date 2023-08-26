@@ -120,3 +120,72 @@ DROP column age;
 
 TRUNCATE table temp;
 
+--  To combine multiple tables or two tables we use joins
+-- INNER JOIN -> Returns records that have matching values in both tables
+
+SELECT *
+FROM tableA
+INNER JOIN tableB
+ON tableA.col_name = tableB.col_name;
+
+-- LEFT JOIN - Returns all records from the left table, and the matched records from the right table 
+
+SELECT *
+FROM tableA AS A
+LEFT JOIN tableB AS B
+ON A.id = B.id;
+
+-- RIGHT JOIN -> Returns all records from the right table, and the matched records from the left table 
+
+SELECT *
+FROM Student_table as s
+RIGHT JOIN Course_table as c
+ON s.id = c.id;
+
+-- FULL JOIN -> Returns all records when there is a match in either left or right table
+-- IN other dbs like oracle and PSQL we can directly use FULL JOIN or FULL OUTER JOIN command but in MySQL 
+-- we have to use UNION command  
+SELECT * 
+FROM student
+LEFT JOIN course
+ON student.id = course.id
+WHERE course.id IS NULL
+UNION
+SELECT *
+FROM student
+RIGHT JOIN course
+ON student.id = course.id
+WHERE student.id IS NULL;
+
+-- SELF join -> It is a regular join but the table is joined with itself
+
+SELECT * 
+FROM employee AS a
+JOIN employee AS b
+ON a.id = b.manager_id;
+
+-- and
+
+SELECT a.name AS manager_id, b.name
+FROM employee AS a
+JOIN employee AS b
+ON a.id = b.manager_id; 
+
+
+-- UNION
+
+-- It is used to combine the result-set of two or more SELECT statements.
+-- Gives UNIQUE records.
+-- every SELECT should have same no. of columns
+-- columns must have similar data types
+-- columns in every SELECT should be in same order
+-- Syntax
+SELECT * FROM tableA
+UNION
+SELECT * FROM tableB
+
+-- sub queries combination of 2 queries
+
+SELECT name, marks
+FROM student
+WHERE marks > (SELECT AVG(marks) FROM student);
